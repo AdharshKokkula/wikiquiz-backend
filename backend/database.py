@@ -10,6 +10,10 @@ load_dotenv()
 # Ideally we want the user to provide this.
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost/wiki_quiz_db")
 
+# Fix for Render: SQLAlchemy moved from postgres:// to postgresql://
+if SQLALCHEMY_DATABASE_URL and SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )

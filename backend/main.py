@@ -15,7 +15,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 # CORS
-origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+raw_origins = os.getenv("ALLOWED_ORIGINS", "*")
+origins = [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
 
 app.add_middleware(
     CORSMiddleware,
